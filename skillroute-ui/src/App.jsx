@@ -233,7 +233,7 @@ const DOMAIN_CONTENT = [
   {
     key: "cloud",
     icon: "cloud",
-    title: "Cloud Computing",
+    title: "Cloud Computing And Deployment",
     level: "Coming Soon",
     scope: "Future domain",
     focus: "Cloud & deployment",
@@ -243,10 +243,10 @@ const DOMAIN_CONTENT = [
   {
     key: "product",
     icon: "columns",
-    title: "Product Management",
+    title: "Core Subjects ",
     level: "Coming Soon",
     scope: "Future domain",
-    focus: "Product planning & delivery",
+    focus: "Computer Scine fundamentals, Os,DBMS, Computer Network",
     description: "This learning domain is reserved for a future update. We will add the right topics and curated resources when this domain is ready.",
     isComingSoon: true,
   },
