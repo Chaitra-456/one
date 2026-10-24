@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import LearningPage from "./LearningPage";
 import DsaLearningPage from "./DsaLearningPage";
+import ExploreResources from "./ExploreResources";
 
 /* ================== ICONS ================== */
 const ICONS = {

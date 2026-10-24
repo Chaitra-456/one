@@ -1,0 +1,308 @@
+/* Explore More Resources card, styled to match the compact SkillRoute reference UI. */
+.er-panel {
+  margin-top: 14px;
+  padding: 22px 20px 18px;
+  border: 1px solid #dce6ee;
+  border-radius: 16px;
+  background: #fff;
+  color: #102d4d;
+  box-sizing: border-box;
+  max-height: 620px;
+  overflow-y: auto;
+  scrollbar-color: #cbd6e2 transparent;
+  scrollbar-width: thin;
+}
+.er-heading { margin-bottom: 18px; }
+.er-eyebrow { display: block; margin-bottom: 7px; color: #00856f; font-size: 11px; font-weight: 800; letter-spacing: 1.1px; }
+.er-heading h2 { margin: 0; color: #102d4d; font-size: 21px; line-height: 1.35; font-weight: 500; }
+.er-heading h2 span { display: inline-flex; align-items: center; justify-content: center; margin-left: 5px; padding: 0 4px; border-radius: 3px; background: #4598f6; color: #fff; font-size: 17px; }
+.er-heading p { margin: 10px 0 0; color: #7b8da2; font-size: 13px; line-height: 1.6; }
+.er-category-list { display: flex; flex-direction: column; }
+.er-category { padding: 18px 0 16px; border-bottom: 1px solid #dce6ee; }
+.er-category-head { display: flex; align-items: center; gap: 11px; }
+.er-icon { width: 39px; height: 39px; flex: 0 0 39px; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: #e4f6ef; color: #008d78; font-size: 20px; }
+.er-category-label { display: flex; flex: 1; flex-direction: column; gap: 6px; min-width: 0; }
+.er-category-label strong { color: #102d4d; font-size: 14px; font-weight: 500; }
+.er-category-label small { color: #7b8da2; font-size: 12px; }
+.er-chevron { color: #173a58; font-size: 22px; line-height: 1; }
+.er-links { display: flex; flex-direction: column; gap: 13px; padding: 17px 0 0 50px; }
+.er-links a { color: #008b79; text-decoration: none; font-size: 12px; line-height: 1.4; overflow-wrap: anywhere; }
+.er-links a:hover { color: #005d50; text-decoration: underline; }
+.er-links a span { font-size: 11px; }
+.er-view-all { display: block; width: 100%; margin-top: 16px; padding: 13px; border: 0; border-radius: 9px; background: #e2f5ed; color: #008b79; font-size: 14px; cursor: pointer; }
+.er-view-all:hover { background: #d3eee3; }
+@media (max-width: 600px) { .er-panel { padding: 18px 16px; max-height: 620px; } .er-heading h2 { font-size: 20px; } }
+
+/* ================================
+   SKILLROUTE EXPLORE RESOURCES
+   ================================ */
+
+.er-panel {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 16px;
+  background: #ffffff;
+  border: 1px solid #e0e8ef;
+  border-radius: 15px;
+  color: #102b4e;
+  font-family: inherit;
+  overflow: hidden;
+}
+
+.er-panel *,
+.er-panel *::before,
+.er-panel *::after {
+  box-sizing: border-box;
+}
+
+.er-heading {
+  margin-bottom: 20px;
+}
+
+.er-eyebrow {
+  display: block;
+  margin-bottom: 5px;
+  color: #00866b;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.1px;
+}
+
+.er-heading h2 {
+  margin: 0 0 10px;
+  color: #102b4e;
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.er-heading h2 span {
+  display: inline-block;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: #e5efff;
+  color: #3682e9;
+  font-size: 16px;
+}
+
+.er-heading p {
+  margin: 0;
+  color: #7b8ba3;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* Category list */
+
+.er-category-list {
+  width: 100%;
+}
+
+.er-category {
+  padding: 14px 0;
+  border-bottom: 1px solid #e0e8ef;
+}
+
+.er-category:last-child {
+  border-bottom: 1px solid #e0e8ef;
+}
+
+.er-category-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.er-icon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  background: #e4f6ef;
+  color: #008b70;
+  font-size: 20px;
+}
+
+.er-category-label {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.er-category-label strong {
+  color: #102b4e;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.er-category-label small {
+  color: #8493a9;
+  font-size: 12px;
+}
+
+.er-chevron {
+  flex-shrink: 0;
+  color: #007eae;
+  font-size: 22px;
+}
+
+/* Resource links */
+
+.er-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 13px;
+  padding-left: 52px;
+}
+
+.er-links a {
+  display: block;
+  color: #008f91;
+  font-size: 12px;
+  line-height: 1.6;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  transition: color 0.2s ease;
+}
+
+.er-links a:hover {
+  color: #006a69;
+  text-decoration: underline;
+}
+
+.er-links a span {
+  font-size: 11px;
+}
+
+/* View All button */
+
+.er-view-all {
+  display: block;
+  width: 100%;
+  margin-top: 16px;
+  padding: 13px 12px;
+  border: none;
+  border-radius: 9px;
+  background: #e4f6ef;
+  color: #008b70;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.er-view-all:hover {
+  background: #d2efe3;
+}
+
+/* Loading and empty states */
+
+.lr-muted {
+  color: #7b8ba3;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.lr-empty-card {
+  margin: 12px 0;
+  padding: 12px;
+  border: 1px solid #e0e8ef;
+  border-radius: 9px;
+  background: #f7fafc;
+  color: #718198;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.lr-alert {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 12px 0;
+  padding: 12px;
+  border: 1px solid #f3d9a5;
+  border-radius: 9px;
+  background: #fff9ec;
+  color: #785c24;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* Right sidebar */
+
+.dsa-explore-sidebar {
+  min-width: 0;
+  align-self: start;
+}
+
+.dsa-explore-sidebar .er-panel {
+  width: 100%;
+}
+
+@media (max-width: 700px) {
+  .er-panel {
+    padding: 14px;
+  }
+
+  .er-heading h2 {
+    font-size: 18px;
+  }
+}
+/* Fix scrolling inside the Explore More Resources card */
+.dsa-explore-sidebar {
+  min-width: 0;
+  align-self: start;
+  height: calc(100vh - 190px);
+  min-height: 400px;
+}
+
+.dsa-explore-sidebar .er-panel {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f8fafc;
+  padding-bottom: 18px;
+}
+
+/* Make the scrollbar visible in Chrome and Edge */
+.dsa-explore-sidebar .er-panel::-webkit-scrollbar {
+  width: 7px;
+}
+
+.dsa-explore-sidebar .er-panel::-webkit-scrollbar-track {
+  background: #f8fafc;
+  border-radius: 10px;
+}
+
+.dsa-explore-sidebar .er-panel::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+.dsa-explore-sidebar .er-panel::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+@media (max-width: 700px) {
+  .dsa-explore-sidebar {
+    height: auto;
+    min-height: 0;
+  }
+
+  .dsa-explore-sidebar .er-panel {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+}
