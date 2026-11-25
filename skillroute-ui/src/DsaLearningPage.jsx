@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./LearningPage.css";
-import "./ExploreResources.css";
+
 const API = "http://localhost:8081/api";
 
 const C_DSA_STAGES = [
@@ -109,14 +109,8 @@ export default function DsaLearningPage({
   const [stages, setStages] = useState([]);
   const [activeStageId, setActiveStageId] = useState("");
   const [videos, setVideos] = useState([]);
-  const [exploreResources, setExploreResources] = useState([]);
-
-  const [exploreLoading, setExploreLoading] = useState(true);
-  const [exploreError, setExploreError] = useState("");
-
-  const [showAllExploreResources, setShowAllExploreResources] =
-    useState(false);
-
+  const [resources, setResources] = useState([]);
+  const [showResources, setShowResources] = useState(false);
   const [loading, setLoading] = useState(true);
   const [videosLoading, setVideosLoading] = useState(false);
   const [notice, setNotice] = useState("");
@@ -126,7 +120,7 @@ export default function DsaLearningPage({
     (stage) => String(getId(stage)) === String(activeStageId)
   );
 
-  // Load the DSA learning path and stages.
+  // Load the DSA path and its stages.
   useEffect(() => {
     let cancelled = false;
 
@@ -135,6 +129,7 @@ export default function DsaLearningPage({
       setNotice("");
       setError("");
       setVideos([]);
+      setResources([]);
 
       const fallbackStages = C_DSA_STAGES.map((title, index) => ({
         id: `fallback-${index}`,
@@ -167,7 +162,7 @@ export default function DsaLearningPage({
 
         if (!path) {
           setNotice(
-            `The DSA learning path for ${language?.name ?? "this language"} was not found. Showing the default stage list.`
+            "The DSA learning path for this language was not found. Showing the stage list."
           );
           return;
         }
@@ -187,6 +182,18 @@ export default function DsaLearningPage({
 
         setStages(pathStages);
         setActiveStageId(String(getId(pathStages[0])));
+
+        try {
+          const pathResources = unwrap(
+            await fetchJson(`${API}/paths/${pathId}/resources`)
+          );
+
+          if (!cancelled) {
+            setResources(pathResources);
+          }
+        } catch {
+          // The stage page remains usable if this optional endpoint fails.
+        }
       } catch (err) {
         if (!cancelled) {
           setNotice(
@@ -205,7 +212,7 @@ export default function DsaLearningPage({
     };
   }, [language]);
 
-  // Load videos for the selected stage.
+  // Load database videos for every learning step in the selected stage.
   useEffect(() => {
     if (!activeStage || activeStage.fallback) {
       setVideos([]);
@@ -259,6 +266,7 @@ export default function DsaLearningPage({
 
         if (cancelled) return;
 
+        // Remove duplicate records by resource ID or URL.
         const unique = [];
         const seen = new Set();
 
@@ -280,11 +288,11 @@ export default function DsaLearningPage({
 
         if (!unique.length && steps.length) {
           setError(
-            "The stage has learning steps, but no video resources were returned. Check the step IDs and resource links."
+            "The stage has learning steps, but their resource endpoints returned no video resources. Check the step IDs and resource links."
           );
         } else if (!steps.length) {
           setError(
-            "No learning steps were returned for this stage."
+            "No learning steps were returned for this stage. The stage title exists, but lessons may not yet be connected."
           );
         }
       } catch (err) {
@@ -303,65 +311,9 @@ export default function DsaLearningPage({
     };
   }, [activeStageId, activeStage]);
 
-  // Load Explore More Resources automatically for DSA domain ID 2.
-  useEffect(() => {
-    let cancelled = false;
-
-    async function loadExploreResources() {
-      setExploreLoading(true);
-      setExploreError("");
-
-      try {
-        const result = unwrap(
-          await fetchJson(`${API}/explore-resources/2`)
-        );
-
-        if (!cancelled) {
-          setExploreResources(result);
-        }
-      } catch (err) {
-        if (!cancelled) {
-          setExploreResources([]);
-          setExploreError(
-            `Could not load Explore More Resources: ${err.message}. Check that the backend is running and the resource API is available.`
-          );
-        }
-      } finally {
-        if (!cancelled) {
-          setExploreLoading(false);
-        }
-      }
-    }
-
-    loadExploreResources();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  function selectStage(stage) {
+  async function selectStage(stage) {
     setActiveStageId(String(getId(stage)));
   }
-
-  const categories = [
-    {
-      name: "Documentation",
-      icon: "▤",
-    },
-    {
-      name: "Practice Problems",
-      icon: "✓",
-    },
-    {
-      name: "GitHub Examples",
-      icon: "⌘",
-    },
-    {
-      name: "Community Discussions",
-      icon: "◎",
-    },
-  ];
 
   return (
     <div className="lr-shell">
@@ -389,7 +341,6 @@ export default function DsaLearningPage({
       </header>
 
       <div className="lr-layout">
-        {/* LEFT: DSA stages and language selection */}
         <aside className="lr-sidebar">
           <div className="lr-side-heading">
             <span className="lr-eyebrow">LEARNING PATH</span>
@@ -442,7 +393,6 @@ export default function DsaLearningPage({
           </div>
         </aside>
 
-        {/* CENTER: Selected stage and lesson videos */}
         <main className="lr-main">
           <div className="lr-breadcrumb">
             <button onClick={onBack}>Home</button>
@@ -546,7 +496,6 @@ export default function DsaLearningPage({
                         <strong>
                           {video.title ?? video.name ?? "Lesson video"}
                         </strong>
-
                         <small>
                           {video.stepTitle
                             ? `${video.stepTitle} · `
@@ -576,131 +525,61 @@ export default function DsaLearningPage({
                   No database videos were found for this stage.
                 </div>
               )}
-          </section>
-        </main>
 
-        {/* RIGHT: Explore More Resources */}
-        <aside className="dsa-explore-sidebar">
-          <div className="lr-explore-inline er-panel">
-            <div className="er-heading">
-              <span className="er-eyebrow">
-                SKILLROUTE RESOURCES
+            <button
+              className="lr-explore-more-button"
+              onClick={() => setShowResources((value) => !value)}
+            >
+              <span>
+                <b>Explore more resources</b>
+                <small>
+                  Articles, documentation, GitHub, community and practice
+                </small>
               </span>
 
-              <h2>
-                Explore More Resources{" "}
-                <span aria-hidden="true">↗</span>
-              </h2>
+              <span>{showResources ? "−" : "+"}</span>
+            </button>
 
-              <p>
-                Articles, Documentation, GitHub, Community &amp; Practice
-              </p>
-            </div>
+            {showResources && (
+              <div className="lr-explore-inline">
+                <h2>Resources for DSA with {language.name}</h2>
 
-            {exploreLoading && (
-              <p className="lr-muted">
-                Loading additional resources…
-              </p>
-            )}
+                {resources.filter((resource) => !isVideo(resource)).length >
+                0 ? (
+                  <div className="lr-resource-list">
+                    {resources
+                      .filter((resource) => !isVideo(resource))
+                      .map((resource, index) => (
+                        <a
+                          className="lr-resource"
+                          key={resource.id ?? index}
+                          href={resource.url ?? resource.link ?? "#"}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <span className="lr-resource-copy">
+                            <strong>
+                              {resource.title ??
+                                resource.name ??
+                                "Learning resource"}
+                            </strong>
+                          </span>
 
-            {exploreError && (
-              <div className="lr-alert">
-                <strong>Resources unavailable</strong>
-                <span>{exploreError}</span>
+                          <span className="lr-watch-button">
+                            Open ↗
+                          </span>
+                        </a>
+                      ))}
+                  </div>
+                ) : (
+                  <div className="lr-empty-card">
+                    No additional resources are linked to this DSA path yet.
+                  </div>
+                )}
               </div>
             )}
-
-            {!exploreLoading &&
-              !exploreError &&
-              exploreResources.length === 0 && (
-                <div className="lr-empty-card">
-                  No additional resources found for DSA (domain ID 2).
-                  Check that the explore_resources table contains records.
-                </div>
-              )}
-
-            {!exploreLoading &&
-              !exploreError &&
-              exploreResources.length > 0 && (
-                <>
-                  <div className="er-category-list">
-                    {categories.map((category) => {
-                      const items = exploreResources.filter(
-                        (resource) =>
-                          norm(resource.category) === norm(category.name)
-                      );
-
-                      if (!items.length) return null;
-
-                      const visibleItems = showAllExploreResources
-                        ? items
-                        : items.slice(0, 3);
-
-                      return (
-                        <section
-                          className="er-category"
-                          key={category.name}
-                        >
-                          <div className="er-category-head">
-                            <span className="er-icon">
-                              {category.icon}
-                            </span>
-
-                            <div className="er-category-label">
-                              <strong>{category.name}</strong>
-                              <small>
-                                {items.length}{" "}
-                                {items.length === 1
-                                  ? "resource"
-                                  : "resources"}
-                              </small>
-                            </div>
-
-                            <span
-                              className="er-chevron"
-                              aria-hidden="true"
-                            >
-                              ›
-                            </span>
-                          </div>
-
-                          <div className="er-links">
-                            {visibleItems.map((resource, index) => (
-                              <a
-                                key={
-                                  resource.id ??
-                                  `${resource.title}-${index}`
-                                }
-                                href={resource.url ?? "#"}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                {resource.title ?? "Learning resource"}{" "}
-                                <span aria-hidden="true">↗</span>
-                              </a>
-                            ))}
-                          </div>
-                        </section>
-                      );
-                    })}
-                  </div>
-
-                  {exploreResources.length > 3 && (
-                    <button
-                      className="er-view-all"
-                      onClick={() =>
-                        setShowAllExploreResources((value) => !value)
-                      }
-                    >
-                      {showAllExploreResources
-                        ? "Show Less ↑"
-                        : "View All →"}
-                    </button>
-                  )}
-                </>
-              )}
-          </div>
-        </aside>
+          </section>
+        </main>
       </div>
     </div>
   );

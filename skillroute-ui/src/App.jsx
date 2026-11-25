@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import LearningPage from "./LearningPage";
 import DsaLearningPage from "./DsaLearningPage";
-import ExploreResources from "./ExploreResources";
 
 /* ================== ICONS ================== */
 const ICONS = {
@@ -233,7 +232,7 @@ const DOMAIN_CONTENT = [
   {
     key: "cloud",
     icon: "cloud",
-    title: "Cloud Computing And Deployment",
+    title: "Cloud Computing",
     level: "Coming Soon",
     scope: "Future domain",
     focus: "Cloud & deployment",
@@ -243,10 +242,10 @@ const DOMAIN_CONTENT = [
   {
     key: "product",
     icon: "columns",
-    title: "Core Subjects ",
+    title: "Product Management",
     level: "Coming Soon",
     scope: "Future domain",
-    focus: "Computer Scine fundamentals, Os,DBMS, Computer Network",
+    focus: "Product planning & delivery",
     description: "This learning domain is reserved for a future update. We will add the right topics and curated resources when this domain is ready.",
     isComingSoon: true,
   },
@@ -506,7 +505,8 @@ function App() {
 
       <main>
         <section className="hero-slide site-blocks-cover skillroute-hero" id="hero">
-<div className="intro-section" style={{backgroundImage: "linear-gradient(rgba(0,0,0,.38),rgba(0,0,0,.38)), url('/academics/images/hero_1.png')"}}>            <div className="container">
+          <div className="intro-section" style={{backgroundImage: "linear-gradient(rgba(0,0,0,.38),rgba(0,0,0,.38)), url('/academics/images/hero_1.jpg')"}}>
+            <div className="container">
               <div className="row align-items-center">
                 <div className="col-lg-9 mx-auto text-center" data-aos="fade-up">
                   <p className="skillroute-hero-kicker">DISCOVER • LEARN • BUILD</p>
