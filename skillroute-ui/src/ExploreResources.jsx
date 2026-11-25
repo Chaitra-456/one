@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import "./ExploreResources.css";
 
-const API_BASE = "http://localhost:8081/api";
+const API_BASE = `${import.meta.env.VITE_API_BASE_URL}/api`;
 
 const CATEGORY_ORDER = [
   "Documentation",

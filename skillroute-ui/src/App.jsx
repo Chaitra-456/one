@@ -319,7 +319,7 @@ function App() {
   useEffect(() => {
     let isMounted = true;
 
-    fetch("http://localhost:8081/api/domains")
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/api/domains`)
       .then((response) => {
         if (!response.ok) throw new Error("Could not load domains");
         return response.json();

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import "./LearningPage.css";
 
-const API_BASE = "http://localhost:8081/api";
+const API_BASE = `${import.meta.env.VITE_API_BASE_URL}/api`;
 const FALLBACK_C_TOPICS = [
   { stage: "Basics", topics: ["Introduction, Structure and Setup", "Variables and Constants", "Data Types", "Input and Output"] },
   { stage: "Operators", topics: ["Arithmetic Operators", "Relational and Logical Operators", "Assignment and Increment Operators", "Bitwise and Conditional Operators"] },

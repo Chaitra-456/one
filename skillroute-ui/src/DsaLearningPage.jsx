@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./LearningPage.css";
 
-const API = "http://localhost:8081/api";
+const API = `${import.meta.env.VITE_API_BASE_URL}/api`;
 
 const C_DSA_STAGES = [
   "DSA Fundamentals",
